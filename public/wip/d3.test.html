@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple D3.js Graph</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script> <!-- D3.js library -->
+</head>
+<body>
+    <div id="graph"></div>
+
+    <svg>
+        <line x1="0" y1="0" x2="10" y2="10" stroke="red"></line>
+        <rect x="0" y="0" width="10" height="10"></rect>
+        <circle cx="5" cy="5" r="5"></circle>
+        <ellipse cx="10" cy="5" rx="10" ry="5"></ellipse>
+        <polygon points="0,0 10,5 20,0 20,20 10,15 0,20" stroke="green"></polygon>
+        <polyline points="0,0 10,5 20,0 20,20 10,15 0,20" stroke="red"></polyline>
+        <path d="M65,10 a50,25 0 1,0 50,25"></path>
+    </svg>
+
+    <table style="border-collapse: collapse; width: 100%; font-family: Arial, sans-serif; border: 1px solid #ddd;">
+        <thead>
+          <tr style="background-color: #f2f2f2;">
+            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Feature</th>
+            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">SVG</th>
+            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #ddd;">Canvas</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom: 1px solid #ddd;">
+            <td style="padding: 12px; background-color: #fafafa;">Performance</td>
+            <td style="padding: 12px;">Better for small datasets (hundreds)</td>
+            <td style="padding: 12px;">Better for large datasets (thousands)</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #ddd;">
+            <td style="padding: 12px; background-color: #fafafa;">Interactivity</td>
+            <td style="padding: 12px;">Built-in with DOM events</td>
+            <td style="padding: 12px;">Requires manual handling</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #ddd;">
+            <td style="padding: 12px; background-color: #fafafa;">Memory Usage</td>
+            <td style="padding: 12px;">Higher (due to DOM overhead)</td>
+            <td style="padding: 12px;">Lower</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #ddd;">
+            <td style="padding: 12px; background-color: #fafafa;">Scalability</td>
+            <td style="padding: 12px;">Excellent (vector-based)</td>
+            <td style="padding: 12px;">Requires manual handling (pixel-based)</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #ddd;">
+            <td style="padding: 12px; background-color: #fafafa;">Use Case</td>
+            <td style="padding: 12px;">Charts, icons, diagrams</td>
+            <td style="padding: 12px;">Games, particle systems, complex animations</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #ddd;">
+            <td style="padding: 12px; background-color: #fafafa;">Ease of Development</td>
+            <td style="padding: 12px;">Easier for static shapes, simpler</td>
+            <td style="padding: 12px;">More complex for large interactive scenes</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #ddd;">
+            <td style="padding: 12px; background-color: #fafafa;">Graphics Complexity</td>
+            <td style="padding: 12px;">Suitable for simple graphics</td>
+            <td style="padding: 12px;">Suitable for complex graphics</td>
+          </tr>
+        </tbody>
+      </table>
+      
+
+    <script>
+        // Data and D3.js code go here
+        const data = [10, 20, 30, 40, 50];
+
+        const width = 500;
+        const height = 300;
+        const barWidth = width / data.length;
+
+        const svg = d3.select("#graph")
+            .append("svg")
+            .attr("width", width)
+            .attr("height", height);
+
+        svg.selectAll("rect")
+            .data(data)
+            .enter()
+            .append("rect")
+            .attr("x", (d, i) => i * barWidth)
+            .attr("y", d => height - d * 5)
+            .attr("width", barWidth - 5)
+            .attr("height", d => d * 5)
+            .attr("fill", "steelblue");
+
+        svg.selectAll("text")
+            .data(data)
+            .enter()
+            .append("text")
+            .text(d => d)
+            .attr("x", (d, i) => i * barWidth + (barWidth / 2) - 5)
+            .attr("y", d => height - d * 5 - 10)
+            .attr("fill", "black");
+    </script>
+</body>
+</html>
