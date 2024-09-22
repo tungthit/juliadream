@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PixiJS Graph Example</title>
+    <script src="https://pixijs.download/v8.4.1/pixi.min.js"></script>
+</head>
+<body>
+  
+    <script>
+
+        // Asynchronous IIFE
+        (async () =>
+        {
+            // Create a PixiJS application.
+            const app = new PIXI.Application();
+
+            // Intialize the application.
+            await app.init({ background: '#000000', resizeTo: window });
+
+            const graph = new PIXI.Graphics();
+
+            // Graph parameters
+            const graphWidth = 600;
+            const graphHeight = 400;
+            const offsetX = 100;  // Space for y-axis
+            const offsetY = 100;  // Space for x-axis
+
+            // Draw Axes
+            graph.lineStyle(2, 0x000000, 1);
+            // X-axis
+            graph.moveTo(offsetX, offsetY + graphHeight);
+            graph.lineTo(offsetX + graphWidth, offsetY + graphHeight);
+
+            // Y-axis
+            graph.moveTo(offsetX, offsetY);
+            graph.lineTo(offsetX, offsetY + graphHeight);
+
+            // Add grid lines (optional)
+            for (let i = 1; i <= 10; i++) {
+                let x = offsetX + (i * (graphWidth / 10));
+                let y = offsetY + (i * (graphHeight / 10));
+
+                // Vertical grid line
+                graph.lineStyle(1, 0xCCCCCC, 1);
+                graph.moveTo(x, offsetY);
+                graph.lineTo(x, offsetY + graphHeight);
+
+                // Horizontal grid line
+                graph.moveTo(offsetX, offsetY + graphHeight - (i * (graphHeight / 10)));
+                graph.lineTo(offsetX + graphWidth, offsetY + graphHeight - (i * (graphHeight / 10)));
+            }
+
+            // Plot data points (example)
+            const data = [10, 40, 80, 20, 60, 90, 30];
+            const maxDataValue = 100;
+            
+            // Set a line style for the graph line
+            graph.lineStyle(3, 0xFF0000, 1);
+
+            // Loop through the data and draw the line and points
+            for (let i = 0; i < data.length; i++) {
+                let x = offsetX + (i * (graphWidth / (data.length - 1)));
+                let y = offsetY + graphHeight - (data[i] / maxDataValue) * graphHeight;
+
+                // Draw a line connecting the points
+                if (i === 0) {
+                    graph.moveTo(x, y);
+                } else {
+                    graph.lineTo(x, y);
+                }
+
+                // Draw a circle for each data point
+                graph.beginFill(0x0000FF);
+                graph.drawCircle(x, y, 5);
+                graph.endFill();
+            }
+
+            app.stage.addChild(graph);
+            // Then adding the application's canvas to the DOM body.
+            document.body.appendChild(app.canvas);
+        })();
+
+    </script>
+</body>
+</html>
